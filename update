@@ -1,0 +1,53 @@
+#!/bin/bash
+
+function display_welcome(){
+	cat /usr/local/bin/.update;
+	echo "";
+}
+
+function do_everything(){
+	echo "";
+	echo "updating ...";
+	sudo apt-get update;
+
+	echo "";
+	echo "upgrading ...";
+	sudo apt-get full-upgrade;
+
+	echo "";
+	echo "cleaning ...";
+	sudo apt-get autoclean;
+
+	echo "";
+        echo "removing ...";
+        sudo apt-get autoremove;
+
+	echo "";
+        echo "cleaning ...";
+        sudo apt-get autoclean;
+}
+
+
+### Check if 'apt' program is installed ###
+apt_location=`whereis apt`
+
+if [ "$apt_location" == "apt:" ]; then
+        echo "error: APT not found. Make sure it's visable by the system by checking: whereis apt";
+	exit -1;
+else
+	### Found APT ###
+
+	### Show Update fancy printout ###
+	display_welcome;
+
+	echo -n "Do everything (update > upgrade > clean > remove > clean)? (*/N) "
+	read everything_opt
+
+	## Check user input (must be a 'N' to avoid doing everything)
+	if [ "$everything_opt" == "N" ] || [ "$everything_opt" == "n" ]; then
+	        echo "Opt-out of everything ..."
+		exit 0;
+	else
+		do_everything;
+	fi
+fi
