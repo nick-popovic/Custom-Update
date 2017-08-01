@@ -1,5 +1,18 @@
 #!/bin/bash
 
+
+## this illustrates how to check the last
+## return value of a command line arg:
+## 0 ----------------> SUCCESS
+## 1 (or non-zero) --> FAILURE
+function DO_NOT_USE_THIS_FUNCTION(){
+	command1
+	if [ $? -ne 0 ]; then
+		echo "command1 borked it"
+	fi
+}
+
+
 function display_welcome(){
 	cat /usr/local/bin/.update;
 	echo "";
