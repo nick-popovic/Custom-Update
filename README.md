@@ -1,9 +1,10 @@
 # Custom-Update
-Simplified package manager that unifies Debian (APT) and Arch Linux (Pacman/Yaourt) package managers into a singular CLI and determines which to use based on the OS.
-
+Simplified package manager where you run only 1 command to update all packages based on your OS and package manager on CLI.
 
 ## Features (so far):
-- run update->upgrade->cleanup process for APT package manager
+- Runs on:
+  - macOS (brew)
+  - linux (apt)
 
 ## TO-DO
 - Impliment Arch Linux's Pacman/Yaourt package manager automation and cleanup

@@ -18,7 +18,7 @@ function display_welcome(){
 	echo "";
 }
 
-function do_everything(){
+function run_apt(){
 	echo "";
 	echo "updating ...";
 	sudo apt-get update;
@@ -40,27 +40,47 @@ function do_everything(){
         sudo apt-get autoclean;
 }
 
+function run_update(){
+	### Check if OS is MAC OS - update with brew pkg man
+	if [[ "$OSTYPE" == "darwin"* ]]; then
+		echo "Running on macOS"
 
-### Check if 'apt' program is installed ###
-apt_location=`whereis apt`
+		echo "|--> Updating Brew ...";
+		brew update;
 
-if [ "$apt_location" == "apt:" ]; then
-        echo "error: APT not found. Make sure it's visable by the system by checking: whereis apt";
-	exit -1;
-else
-	### Found APT ###
+		echo "|--> Updating Packages ...";
+		brew upgrade;
 
-	### Show Update fancy printout ###
-	display_welcome;
-
-	echo -n "Do everything (update > upgrade > clean > remove > clean)? (*/N) "
-	read everything_opt
-
-	## Check user input (must be a 'N' to avoid doing everything)
-	if [ "$everything_opt" == "N" ] || [ "$everything_opt" == "n" ]; then
-	        echo "Opt-out of everything ..."
 		exit 0;
 	else
-		do_everything;
+		echo "Not running on macOS"
 	fi
+
+	### Check if OS is Linux and find the right pkg man to update ###
+	if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+		if command -v apt >/dev/null 2>&1; then
+			echo "Running Linux with apt installed"
+			echo "|--> Updating Packages";
+			run_apt;
+			exit 0;
+		else
+			echo "Linux but apt is not installed"
+		fi
+	else
+		echo "Not running on Linux"
+	fi
+}
+
+### MAIN Code entry here ... ###
+display_welcome;
+
+echo -n "Do everything (update > upgrade > clean > remove > clean)? (*/N) "
+read everything_opt
+
+## Check user input (must be a 'N' to avoid doing everything)
+if [ "$everything_opt" == "N" ] || [ "$everything_opt" == "n" ]; then
+        echo "Opt-out of everything ..."
+	exit 0;
+else
+	run_update;
 fi
