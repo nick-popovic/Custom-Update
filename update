@@ -34,10 +34,6 @@ function run_apt(){
 	echo "";
         echo "removing ...";
         sudo apt-get autoremove;
-
-	echo "";
-        echo "cleaning ...";
-        sudo apt-get autoclean;
 }
 
 function run_update(){
