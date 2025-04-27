@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# display a welcome message
 function display_welcome(){
 	cat /usr/local/bin/.update;
 	echo "";
@@ -20,6 +21,26 @@ function run_apt(){
   sudo apt-get autoremove;
 }
 
+function run_pacman(){
+  # Update the system (Pacman)
+  echo "==> Updating system packages..."
+  sudo pacman -Syu
+
+  # Clean orphan packages (Pacman)
+  echo "==> Removing Pacman orphan packages..."
+  sudo pacman -Rns $(pacman -Qdtq) 2>/dev/null || true
+  sudo pacman -Rns $(pacman -Qdtq) 2>/dev/null || true
+}
+
+function run_yay(){
+  # Update AUR packages (yay)
+  echo "==> Updating AUR packages (yay)..."
+  yay -Syu --noconfirm
+
+  # Clean orphan packages (yay)
+  echo "==> Removing Yay orphan packages..."
+  yay -Yc --noconfirm
+  yay -Yc --noconfirm
 }
 
 function run_update(){
@@ -50,6 +71,27 @@ function run_update(){
 		else
 			echo "Linux but apt is not installed"
 		fi
+
+    ## Check if OS is Arch Linux
+    if command -v pacman >/dev/null 2>&1; then
+      echo "Running Arch Linux with pacman installed"
+      echo "|--> Updating Packages";
+      run_pacman;
+      exit 0;
+    else
+      echo "Linux but pacman is not installed"
+    fi
+
+    if command -v yay >/dev/null 2>&1; then
+      echo "Running Arch Linux with yay installed"
+      echo "|--> Updating Packages";
+      run_yay;
+      exit 0;
+    else
+      echo "Linux but yay is not installed"
+    fi
+	
+  else
 		echo "Not running on Linux"
 	fi
 }
