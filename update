@@ -1,43 +1,29 @@
 #!/bin/bash
 
-
-## this illustrates how to check the last
-## return value of a command line arg:
-## 0 ----------------> SUCCESS
-## 1 (or non-zero) --> FAILURE
-function DO_NOT_USE_THIS_FUNCTION(){
-	command1
-	if [ $? -ne 0 ]; then
-		echo "command1 borked it"
-	fi
-}
-
-
 function display_welcome(){
 	cat /usr/local/bin/.update;
 	echo "";
 }
 
 function run_apt(){
-	echo "";
-	echo "updating ...";
-	sudo apt-get update;
+  # Update the system (APT)
+  echo "==> Updating system packages..."
+  sudo apt-get full-upgrade
 
-	echo "";
-	echo "upgrading ...";
-	sudo apt-get full-upgrade;
+  # Clean orphan packages (APT)
+  echo "==> Removing APT orphan packages..."
+  sudo apt-get autoremove --purge
 
-	echo "";
-	echo "cleaning ...";
-	sudo apt-get autoclean;
+  # Clean up package cache (APT)
+  echo "==> Cleaning up APT package cache..."
+  sudo apt-get autoclean
+  sudo apt-get autoremove;
+}
 
-	echo "";
-        echo "removing ...";
-        sudo apt-get autoremove;
 }
 
 function run_update(){
-	### Check if OS is MAC OS - update with brew pkg man
+  ### Check if OS is MAC OS - update with brew pkg man
 	if [[ "$OSTYPE" == "darwin"* ]]; then
 		echo "Running on macOS"
 
@@ -54,7 +40,9 @@ function run_update(){
 
 	### Check if OS is Linux and find the right pkg man to update ###
 	if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-		if command -v apt >/dev/null 2>&1; then
+		
+    ## Check if OS is Ubuntu or Debian
+    if command -v apt >/dev/null 2>&1; then
 			echo "Running Linux with apt installed"
 			echo "|--> Updating Packages";
 			run_apt;
@@ -62,7 +50,6 @@ function run_update(){
 		else
 			echo "Linux but apt is not installed"
 		fi
-	else
 		echo "Not running on Linux"
 	fi
 }
