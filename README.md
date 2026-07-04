@@ -11,7 +11,3 @@ Simplified package manager where you run only 1 command to update all packages b
 - Runs on:
   - macOS (brew)
   - linux (apt | pacman | yay)
-
-## TO-DO
-- Consider support for:
-  - Windows (winget | chocolatey | scoop ..etc)
