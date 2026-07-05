@@ -17,12 +17,12 @@ A simplified utility script where you run only 1 command to update all packages 
 You can install the `update` command by piping the installation script directly to bash. By default, it will download the latest release and install it to `~/.local/bin`.
 
 ```bash
-curl -sLf https://raw.githubusercontent.com/nick-popovic/Custom-Update/main/install.sh | bash
+curl -sLf https://raw.githubusercontent.com/nick-popovic/Custom-Update/master/install.sh | bash
 ```
 
 If you prefer to install it to a different directory, you can pass the path as an argument to the script:
 ```bash
-curl -sLf https://raw.githubusercontent.com/nick-popovic/Custom-Update/main/install.sh | bash -s -- /usr/local/bin
+curl -sLf https://raw.githubusercontent.com/nick-popovic/Custom-Update/master/install.sh | bash -s -- /usr/local/bin
 ```
 
 *Note: If you install to a custom directory or `~/.local/bin`, make sure it is included in your system's `$PATH`.*
